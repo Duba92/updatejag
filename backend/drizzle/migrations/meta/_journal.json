@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1794170021150,
+      "tag": "0000_jag_core",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1794170041777,
+      "tag": "0001_jag_storage_policies",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794375540743,
+      "tag": "0002_restrict_post_featuring_and_role_lookup",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1794375578025,
+      "tag": "0003_scope_public_interactions_and_media",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1795115823230,
+      "tag": "0004_custom_phone_auth",
+      "breakpoints": true
+    }
+  ]
+}
