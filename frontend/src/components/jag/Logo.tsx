@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
+import logoUrl from "@/assets/jag-logo.jpg";
 export const ORG_NAME = "Jatani Ali Generation (JAG) Students Association";
-const logoUrl = "/jag-logo.jpg";
 
 export function Logo({
   className,

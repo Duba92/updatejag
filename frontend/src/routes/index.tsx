@@ -17,8 +17,7 @@ import { postsQuery } from "@/lib/posts";
 import { POST_CATEGORIES } from "@/lib/constants";
 import { supabase } from "@/integrations/supabase/client";
 import { useLang } from "@/lib/i18n";
-
-const hero = "/jag-students-banner.png";
+import hero from "@/assets/jag-students-banner.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({

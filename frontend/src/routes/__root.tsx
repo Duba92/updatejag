@@ -11,6 +11,7 @@ import {
 import type { ReactNode } from "react";
 
 import appCss from "@backend/styles.css?url";
+import favicon from "@/assets/favicon.png";
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/lib/auth";
 import { LanguageProvider } from "@/lib/i18n";
@@ -110,7 +111,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           rel: "stylesheet",
           href: appCss,
         },
-        { rel: "icon", href: "/favicon.png", type: "image/png" },
+        { rel: "icon", href: favicon, type: "image/png" },
         { rel: "preconnect", href: "https://fonts.googleapis.com" },
         {
           rel: "preconnect",
