@@ -12,7 +12,7 @@ const { dependencies } = require("./package.json") as {
 };
 
 export default defineConfig({
-  publicDir: "../frontend/public",
+  publicDir: path.resolve(__dirname, "../frontend/public"),
   server: { fs: { allow: [path.resolve(__dirname, "..")] } },
   resolve: {
     dedupe: Object.keys(dependencies),
@@ -23,7 +23,15 @@ export default defineConfig({
   },
   plugins: [
     tanstackStart({ srcDirectory: "../frontend/src", server: { entry: "server" } }),
-    nitro(),
+    nitro({
+      publicAssets: [
+        {
+          dir: path.resolve(__dirname, "../frontend/public"),
+          baseURL: "/",
+          maxAge: 0,
+        },
+      ],
+    }),
     viteReact(),
     tailwindcss(),
   ],
