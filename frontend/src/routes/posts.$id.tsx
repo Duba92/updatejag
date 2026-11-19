@@ -148,11 +148,6 @@ function PostPage() {
             Draft
           </span>
         )}
-        {post.is_sample && (
-          <span className="rounded-full border px-3 py-1 text-muted-foreground">
-            Sample content
-          </span>
-        )}
       </div>
       <h1 className="mt-3 text-[1.75rem] font-extrabold leading-tight md:mt-4 md:text-5xl">
         {post.title}

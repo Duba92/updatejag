@@ -199,17 +199,3 @@ as $$ update posts set view_count = view_count + 1 where id = _post_id and statu
 grant execute on function public.increment_view(uuid) to anon, authenticated;
 
 alter publication supabase_realtime add table public.notifications;
-
-insert into public.posts (is_sample, sample_author, title, body, category, tags, youtube_url, youtube_id, featured, view_count, created_at) values
-(true,'Hanna T. · Addis Ababa University','What I wish I knew in my first semester','<p>My first semester was overwhelming. I didn''t know how to register for courses, where the library was, or how to talk to lecturers.</p><h2>Three things that helped</h2><ul><li><strong>Join a study group early.</strong> It made me feel less alone.</li><li><strong>Visit office hours.</strong> Lecturers remember students who ask.</li><li><strong>Plan your week every Sunday.</strong></li></ul><p>If you are starting now: you are not behind. Everyone is figuring it out.</p>','First-Year Experience','{freshman,tips}',null,null,true,412, now() - interval '2 days'),
-(true,'Dawit M. · Jimma University','How I raised my GPA from 2.4 to 3.6','<p>After a bad first year I changed how I study. I stopped re-reading notes and started testing myself.</p><h2>My system</h2><ol><li>Active recall with flashcards</li><li>Past exam papers every week</li><li>Teaching topics to a friend</li></ol><p>This video explains the method better than I can.</p>','GPA Improvement','{gpa,study}','https://www.youtube.com/watch?v=ukLnPbIffxE','ukLnPbIffxE',true,980, now() - interval '5 days'),
-(true,'Lensa G. · Haramaya University','Choosing my department: engineering or medicine?','<p>I was torn between what my family wanted and what I enjoyed. Here is how I decided, and what I would tell someone in the same situation.</p><p>Talk to senior students in both departments. Ask them about a normal week, not just career salaries.</p>','Department Selection','{departments,advice}',null,null,false,233, now() - interval '1 day'),
-(true,'Yonas A. · Bahir Dar University','Surviving dorm life with five roommates','<p>Shared rooms teach patience. We made a simple rota for cleaning and a quiet-hours rule during exams. It changed everything.</p>','Accommodation','{dorm,campus}',null,null,false,150, now() - interval '8 hours'),
-(true,'Meron K. · Mekelle University','My first internship: what actually happened','<p>I applied to 23 places and got one reply. That one reply became my internship. Keep your CV to one page and write a short, honest cover letter.</p>','Internship Experience','{internship,career}','https://youtu.be/Tt08KmFfIYQ','Tt08KmFfIYQ',false,321, now() - interval '3 days');
-
-insert into public.post_media (post_id, kind, url, caption, position)
-select id, 'image', 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1200', 'Graduation day on campus', 0 from public.posts where title like 'What I wish%'
-union all select id, 'image', 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200', 'Our study group', 1 from public.posts where title like 'What I wish%'
-union all select id, 'image', 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=1200', 'Our shared room', 0 from public.posts where title like 'Surviving dorm%'
-union all select id, 'audio', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', 'Sample audio clip', 0 from public.posts where title like 'Choosing my department%';
-update public.posts set audio_title = 'Listen: my decision story (sample audio)' where title like 'Choosing my department%';

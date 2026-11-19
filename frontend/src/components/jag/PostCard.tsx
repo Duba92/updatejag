@@ -39,11 +39,6 @@ export function PostCard({ post }: { post: Post }) {
           <span className="rounded-full bg-accent px-2.5 py-1 font-semibold text-accent-foreground">
             {post.category}
           </span>
-          {post.is_sample && (
-            <span className="rounded-full border px-2 py-0.5 text-muted-foreground">
-              Sample
-            </span>
-          )}
           <span className="ml-auto flex gap-1.5 text-muted-foreground">
             {post.images.length > 0 && (
               <ImageIcon className="h-3.5 w-3.5" aria-label="Photos" />

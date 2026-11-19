@@ -27,8 +27,6 @@ export type Post = {
   featured: boolean;
   view_count: number;
   created_at: string;
-  is_sample: boolean;
-  sample_author: string | null;
   author_id: string | null;
   author: {
     id: string;
@@ -66,10 +64,8 @@ export async function hydratePost(row: any): Promise<Post> {
   };
 }
 
-export const authorName = (p: Post) =>
-  p.author?.full_name || p.sample_author?.split(" · ")[0] || "JAG student";
-export const authorSchool = (p: Post) =>
-  p.author?.university || p.sample_author?.split(" · ")[1] || "";
+export const authorName = (p: Post) => p.author?.full_name || "JAG student";
+export const authorSchool = (p: Post) => p.author?.university || "";
 export const plainText = (html: string) =>
   html
     .replace(/<[^>]+>/g, " ")

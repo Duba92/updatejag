@@ -1,63 +1,86 @@
 # JAG Gather Share Grow
 
-JAG Gather Share Grow is a community app where Haramaya University students can
-share experiences, advice, photos, audio, and videos.
+JAG Gather Share Grow is a community platform for Haramaya University students
+to share experiences, advice, photos, audio, and videos.
 
-## Requirements
+## Tech stack
+
+- React, TanStack Start, Vite, and Tailwind CSS
+- Supabase for data and private file storage
+- Drizzle for database schema and migrations
+
+## Prerequisites
+
+Before you start, install:
 
 - Node.js 22.12 or later
 - npm
 - A Supabase project
 
-## Set up Supabase
+## Quick start
 
-1. Create a Supabase project.
-2. Copy the environment template from the project root:
+1. Copy the environment template:
 
    ```powershell
    Copy-Item backend\.env.example backend\.env
    ```
 
-3. Open `backend/.env` and replace the example values with your Supabase
-   project's values:
-   - `SUPABASE_PROJECT_ID` and `VITE_SUPABASE_PROJECT_ID`: the project reference
-   - `SUPABASE_URL` and `VITE_SUPABASE_URL`: the project URL
-   - `SUPABASE_PUBLISHABLE_KEY` and `VITE_SUPABASE_PUBLISHABLE_KEY`: the
-     publishable key
-   - `SUPABASE_SERVICE_ROLE_KEY`: the server-only service role key
+2. Add your Supabase values to `backend/.env`. See
+   [Configure Supabase](#configure-supabase) below.
 
-   Keep the service role key private. Never add it to a `VITE_` variable or
-   commit `backend/.env`. The `.env.example` file contains placeholders only.
+3. Install dependencies and start the app:
 
-4. In the Supabase Dashboard, open **SQL Editor** and apply the SQL files in
-   `backend/drizzle/migrations/` in filename order:
-   `0000`, `0001`, `0002`, `0003`, then `0004`.
-5. Before applying `0004_custom_phone_auth.sql`, create these **private**
-   Storage buckets:
+   ```powershell
+   cd backend
+   npm ci
+   npm run dev
+   ```
+
+4. Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+To stop the development server, press `Ctrl+C`.
+
+## Configure Supabase
+
+Create a Supabase project, then update `backend/.env` with its details.
+
+| Variable | Description |
+| --- | --- |
+| `SUPABASE_PROJECT_ID` | Your Supabase project reference. |
+| `SUPABASE_URL` | Your project URL. |
+| `SUPABASE_PUBLISHABLE_KEY` | Your project's publishable key. |
+| `SUPABASE_SERVICE_ROLE_KEY` | Server-only service role key. |
+| `VITE_SUPABASE_PROJECT_ID` | Same project reference, available to the frontend. |
+| `VITE_SUPABASE_URL` | Same project URL, available to the frontend. |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | Same publishable key, available to the frontend. |
+| `SUPABASE_DB_URL` | Optional PostgreSQL connection string for Drizzle tools. |
+
+Never expose `SUPABASE_SERVICE_ROLE_KEY` in a `VITE_` variable or commit the
+`backend/.env` file. The service role key grants elevated access and is used
+only by the server.
+
+## Set up the database and storage
+
+In the Supabase Dashboard, open **SQL Editor** and run the migrations from
+`backend/drizzle/migrations/` in this order:
+
+1. `0000_jag_core.sql`
+2. `0001_jag_storage_policies.sql`
+3. `0002_restrict_post_featuring_and_role_lookup.sql`
+4. `0003_scope_public_interactions_and_media.sql`
+5. Create these **private** Storage buckets:
    - `avatars`
    - `post-images`
    - `post-audio`
+6. `0004_custom_phone_auth.sql`
+7. `0005_remove_sample_posts.sql`
 
-   Migration `0004` configures their file-size and MIME-type limits.
+Migration `0004` applies file-size and MIME-type rules for the storage buckets.
+Migration `0005` deletes posts marked as sample data; run it only when you want
+to remove those seeded posts. `SUPABASE_DB_URL` is not needed when applying
+migrations through the Supabase SQL Editor.
 
-`SUPABASE_DB_URL` is optional and is only needed when using Drizzle tools that
-connect directly to PostgreSQL. It is not required for the local app when you
-apply migrations in the Supabase SQL Editor.
-
-## Run locally
-
-From the project root, install dependencies and start the development server:
-
-```powershell
-cd backend
-npm ci
-npm run dev
-```
-
-Open [http://localhost:5173](http://localhost:5173). Stop the server with
-`Ctrl+C`.
-
-## Run checks
+## Checks
 
 Run these commands from `backend/`:
 
@@ -67,17 +90,25 @@ npm run lint
 npm run build
 ```
 
-## Authentication notes
+## Authentication and security
 
-Signup and login use a phone number and password; SMS and OTP verification are
-not used. Phone numbers are not verified, so users may register numbers they do
-not own. Forgotten-password recovery requires an administrator.
+- Accounts use a phone number and password; SMS and OTP verification are not
+  used.
+- Phone numbers are not verified, so password recovery requires administrator
+  assistance.
+- Passwords are hashed and sessions use HttpOnly cookies.
+- Uploaded media is stored in private Supabase buckets and served through
+  signed URLs.
 
 ## Project structure
 
-- `frontend/` contains the routes, UI components, styles, and public assets.
-- `backend/` contains server-side authentication and data access, Supabase
-  configuration, database schema and migrations, and the npm project.
-- Routes are file-based under `frontend/src/routes/`.
-- `frontend/src/routeTree.gen.ts` is generated automatically; do not edit it
-  by hand.
+| Path | Purpose |
+| --- | --- |
+| `frontend/` | Routes, UI components, styles, tests, and public assets. |
+| `backend/src/` | Server-side authentication and data-access code. |
+| `backend/drizzle/` | Database schema and SQL migrations. |
+| `backend/.env.example` | Template for local Supabase configuration. |
+
+Routes are file-based under `frontend/src/routes/`.
+`frontend/src/routeTree.gen.ts` is generated automatically; do not edit it by
+hand.
