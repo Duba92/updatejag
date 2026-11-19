@@ -9,6 +9,7 @@ export default defineConfig({
   publicDir: "../frontend/public",
   server: { fs: { allow: [path.resolve(__dirname, "..")] } },
   resolve: {
+    dedupe: ["@tanstack/react-query"],
     alias: {
       "@backend": path.resolve(__dirname, "src"),
       "@": path.resolve(__dirname, "../frontend/src"),
